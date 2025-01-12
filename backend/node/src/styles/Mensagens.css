@@ -1,0 +1,105 @@
+.mensagens-container {
+  padding: 2rem;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #002654;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.mensagens-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.mensagem-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 250px;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mensagem-card h3 {
+  font-size: 1.2rem;
+  color: #002654;
+  margin-bottom: 0.5rem;
+}
+
+.mensagem-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.mensagens-controle {
+  margin-top: 2rem;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto 0;
+}
+
+.mensagens-controle h2 {
+  font-size: 1.5rem;
+  color: #002654;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.input-mensagem {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea.input-mensagem {
+  height: 100px;
+  resize: none;
+}
+
+button {
+  background-color: #002654;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  margin: 1rem auto 0;
+}
+
+button:hover {
+  background-color: #004080;
+}
+
+select.input-mensagem {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: white;
+  font-size: 1rem;
+  color: #555;
+}

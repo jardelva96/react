@@ -1,0 +1,72 @@
+/* Container principal */
+.about-container {
+    padding: 2rem;
+    background-color: #f9f9f9;
+  }
+  
+  /* Cabeçalho */
+  .about-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .about-header h1 {
+    font-size: 2.5rem;
+    color: #002654;
+    margin-bottom: 1rem;
+  }
+  
+  .about-header p {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* Benefícios */
+  .about-benefits {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-benefits h2 {
+    color: #002654;
+    margin-bottom: 1rem;
+  }
+  
+  .about-benefits ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .about-benefits ul li {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  /* Missão */
+  .about-mission {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-mission h2 {
+    color: #002654;
+    margin-bottom: 1rem;
+  }
+  
+  .about-mission p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  
