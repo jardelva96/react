@@ -18,7 +18,7 @@ O **backend** deste projeto está sendo desenvolvido separadamente e será respo
 
 ## Pré-requisitos
 
-- **Node.js** (versão 14 ou superior)
+- **Node.js**
 - **npm** (gerenciador de pacotes)
 
 ## Instalação
