@@ -1,4 +1,4 @@
-# Frontend - Gerenciamento de Disciplinas
+# Gerenciamento de Disciplinas
 
 Este é o **frontend** do projeto de **Gerenciamento de Disciplinas**, desenvolvido com **React**. O aplicativo permite que os usuários visualizem disciplinas, adicionem notas e calculem a média das disciplinas.
 
