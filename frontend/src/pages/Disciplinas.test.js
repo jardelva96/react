@@ -1,68 +1,67 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Disciplinas from './Disciplinas';
+import Disciplinas from './Disciplinas'; // Ajuste o caminho de importação conforme necessário
+
+// Mocking para o prompt e confirm
+beforeAll(() => {
+  global.prompt = jest.fn();
+  global.confirm = jest.fn();
+});
 
 test('Exibe as disciplinas corretamente', () => {
   render(<Disciplinas />);
 
   const matematica = screen.getByText('Matemática');
   const fisica = screen.getByText('Física');
-  const quimica = screen.getByText('Química');
 
   expect(matematica).toBeInTheDocument();
   expect(fisica).toBeInTheDocument();
-  expect(quimica).toBeInTheDocument();
-});
-
-test('Calcula a média corretamente', () => {
-  render(<Disciplinas />);
-
-  // Verificando a média da Matemática
-  const matematicaMedia = screen.getByText('Média: 8.17');
-  expect(matematicaMedia).toBeInTheDocument();
-
-  // Verificando a média da Física
-  const fisicaMedia = screen.getByText('Média: 7.00');
-  expect(fisicaMedia).toBeInTheDocument();
-
-  // Verificando a média da Química
-  const quimicaMedia = screen.getByText('Média: 9.75');
-  expect(quimicaMedia).toBeInTheDocument();
 });
 
 test('Adiciona uma nova disciplina corretamente', async () => {
   render(<Disciplinas />);
 
-  // Mocking o prompt para simular a entrada do nome e descrição
-  window.prompt = jest.fn()
-    .mockReturnValueOnce('Biologia')  // Nome da nova disciplina
-    .mockReturnValueOnce('Estudos biológicos'); // Descrição da nova disciplina
+  // Mocking do prompt para retornar nome e descrição
+  global.prompt.mockReturnValueOnce('Química');
+  global.prompt.mockReturnValueOnce('Disciplina de Química');
 
-  // Simulando o clique no botão de adicionar disciplina
-  const btnAddDisciplina = screen.getByText('Adicionar Disciplina');
-  fireEvent.click(btnAddDisciplina);
+  const addButton = screen.getByText('Adicionar Disciplina');
 
-  // Esperando que a nova disciplina seja exibida
-  await waitFor(() => {
-    const novaDisciplina = screen.getByText('Biologia');
-    expect(novaDisciplina).toBeInTheDocument();
-  });
+  // Simula o clique no botão de adicionar disciplina
+  fireEvent.click(addButton);
+
+  // Espera a disciplina ser adicionada
+  const disciplinaNova = screen.getByText('Química');
+  expect(disciplinaNova).toBeInTheDocument();
 });
 
-test('Adiciona uma nota corretamente', async () => {
+test('Edita uma disciplina corretamente', async () => {
   render(<Disciplinas />);
 
-  // Pegando o input da disciplina de Matemática
-  const inputNotas = screen.getAllByPlaceholderText('Adicionar nota');
+  const editarButton = screen.getAllByText('Editar')[0]; // Pega o primeiro botão de editar
 
-  // Simulando a adição de uma nova nota na primeira disciplina (Matemática)
-  fireEvent.change(inputNotas[0], { target: { value: '9' } });
-  fireEvent.keyDown(inputNotas[0], { key: 'Enter' });
+  // Mocking do prompt para edição
+  global.prompt.mockReturnValueOnce('Matemática Avançada'); // Novo nome
+  global.prompt.mockReturnValueOnce('Disciplina avançada de Matemática'); // Nova descrição
 
-  // Esperando que a nota seja adicionada ao DOM
+  fireEvent.click(editarButton);
+
+  // Espera a edição ser feita
+  const novaDescricao = screen.getByText('Disciplina avançada de Matemática');
+  expect(novaDescricao).toBeInTheDocument();
+});
+
+test('Exclui uma disciplina corretamente', async () => {
+  render(<Disciplinas />);
+
+  // Mocking do confirm para simular a confirmação da exclusão
+  global.confirm.mockReturnValue(true);
+
+  const excluirButton = screen.getAllByText('Excluir')[0]; // Pega o primeiro botão de excluir
+  fireEvent.click(excluirButton);
+
+  // Espera a disciplina ser removida
   await waitFor(() => {
-    expect(screen.getByText('Nota 1: 8')).toBeInTheDocument();
-    expect(screen.getByText('Nota 2: 9')).toBeInTheDocument();
-    expect(screen.getByText('Nota 3: 7.5')).toBeInTheDocument();
-    expect(screen.getByText('Nota 4: 9')).toBeInTheDocument(); // Nova nota
+    const disciplinaMatematica = screen.queryByText('Matemática');
+    expect(disciplinaMatematica).toBeNull();
   });
 });

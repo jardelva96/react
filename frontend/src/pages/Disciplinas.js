@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import '../styles/Disciplinas.css';
 
 /**
  * Página de Disciplinas
- * Exibe uma lista de disciplinas, permite adicionar notas e calcular a média.
+ * Exibe uma lista de disciplinas, permite adicionar, editar, remover notas e calcular a média.
  */
 function Disciplinas() {
-  // Estado inicial com disciplinas
-  const [disciplinas, setDisciplinas] = useState([]);
+  // Estado inicial com disciplinas fictícias
+  const [disciplinas, setDisciplinas] = useState([
+    { id: 1, nome: 'Matemática', descricao: 'Disciplina de Matemática', notas: [7, 8, 9] },
+    { id: 2, nome: 'Física', descricao: 'Disciplina de Física', notas: [6, 6, 7] },
+  ]);
 
   // Função para calcular a média das notas
   const calcularMedia = (notas) => {
@@ -17,56 +19,70 @@ function Disciplinas() {
     return (total / notas.length).toFixed(2);
   };
 
-  // Função para pegar todas as disciplinas do backend
-  const carregarDisciplinas = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/api/disciplinas');
-      setDisciplinas(response.data);
-    } catch (error) {
-      console.error('Erro ao carregar disciplinas', error);
-    }
-  };
-
   // Função para adicionar uma nova nota a uma disciplina
-  const adicionarNota = async (id, nota) => {
+  const adicionarNota = (id, nota) => {
     const novaNota = parseFloat(nota);
     if (isNaN(novaNota) || novaNota < 0 || novaNota > 10) {
       alert('Digite uma nota válida entre 0 e 10.');
       return;
     }
 
-    try {
-      await axios.put(`http://localhost:3001/api/disciplinas/${id}/nota`, { nota: novaNota });
-      carregarDisciplinas();  // Recarregar disciplinas após a atualização
-    } catch (error) {
-      console.error('Erro ao adicionar nota', error);
-    }
+    setDisciplinas((prevDisciplinas) =>
+      prevDisciplinas.map((disciplina) =>
+        disciplina.id === id
+          ? { ...disciplina, notas: [...disciplina.notas, novaNota] }
+          : disciplina
+      )
+    );
   };
 
   // Função para adicionar uma nova disciplina
-  const adicionarDisciplina = async (nome, descricao) => {
+  const adicionarDisciplina = (nome, descricao) => {
     if (!nome.trim() || !descricao.trim()) {
       alert('O nome e a descrição da disciplina não podem estar vazios.');
       return;
     }
 
-    try {
-      const response = await axios.post('http://localhost:3001/api/disciplinas', { nome, descricao });
-      setDisciplinas([...disciplinas, response.data]);  // Adiciona a nova disciplina ao estado
-    } catch (error) {
-      console.error('Erro ao adicionar disciplina', error);
-    }
+    const novaDisciplina = {
+      id: disciplinas.length + 1,
+      nome,
+      descricao,
+      notas: [],
+    };
+
+    setDisciplinas([...disciplinas, novaDisciplina]);
   };
 
-  // Chamar a função para carregar as disciplinas assim que a página for carregada
-  useEffect(() => {
-    carregarDisciplinas();
-  }, []);
+  // Função para editar o nome e descrição de uma disciplina
+  const editarDisciplina = (id, novoNome, novaDescricao) => {
+    if (!novoNome.trim() || !novaDescricao.trim()) {
+      alert('O nome e a descrição da disciplina não podem estar vazios.');
+      return;
+    }
+
+    setDisciplinas((prevDisciplinas) =>
+      prevDisciplinas.map((disciplina) =>
+        disciplina.id === id
+          ? { ...disciplina, nome: novoNome, descricao: novaDescricao }
+          : disciplina
+      )
+    );
+  };
+
+  // Função para excluir uma disciplina
+  const excluirDisciplina = (id) => {
+    const confirmDelete = window.confirm('Tem certeza que deseja excluir esta disciplina?');
+    if (confirmDelete) {
+      setDisciplinas((prevDisciplinas) =>
+        prevDisciplinas.filter((disciplina) => disciplina.id !== id)
+      );
+    }
+  };
 
   return (
     <div className="disciplinas-container">
       <h1>Gerenciamento de Disciplinas</h1>
-      <p>Adicione notas às disciplinas e veja as médias calculadas.</p>
+      <p>Adicione, edite ou remova disciplinas e veja as médias calculadas.</p>
 
       <div className="disciplinas-lista">
         {disciplinas.map((disciplina) => (
@@ -89,6 +105,20 @@ function Disciplinas() {
                 }
               }}
             />
+
+            {/* Botões para editar e excluir disciplina */}
+            <button onClick={() => {
+              const novoNome = prompt('Novo nome para a disciplina', disciplina.nome);
+              const novaDescricao = prompt('Nova descrição para a disciplina', disciplina.descricao);
+              if (novoNome && novaDescricao) {
+                editarDisciplina(disciplina.id, novoNome, novaDescricao);
+              }
+            }}>
+              Editar
+            </button>
+            <button onClick={() => excluirDisciplina(disciplina.id)}>
+              Excluir
+            </button>
           </div>
         ))}
       </div>

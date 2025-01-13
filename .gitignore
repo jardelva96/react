@@ -1,12 +1,11 @@
-# Ignore node_modules folder for both front and back
-/frontend/node_modules
-/backend/node_modules
+# Ignorar node_modules (para o frontend)
+node_modules/
 
-# Ignore environment files
-.env
+# Ignorar dependências de backend
+vendor/
+.idea/
+.vscode/
 
-# Ignore Python Bytecode files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Ignorar arquivos temporários do sistema
+.DS_Store
+Thumbs.db
